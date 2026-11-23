@@ -8,8 +8,6 @@ need a pharmacist reach a Telegram group with Approve and Reject buttons.
 LIVE WEBSITE
 https://mohamedosamatemraz.github.io/Project-2-Dawaa/
 
-Repository: https://github.com/mohamedosamatemraz/Project-2-Dawaa
-
 WEBSITE PAGES
 - Home: project overview and links to WhatsApp, Telegram and GitHub
 - Live counter: WhatsApp chat, n8n execution log and Telegram pharmacist
@@ -28,11 +26,11 @@ WhatsApp and Telegram buttons are disabled when it is offline.
 WORKFLOWS
 Workflow                         Trigger
 -------------------------------  ------------------------------------------
-S33-continue dawaa (customer)    WhatsApp message
-S33-continue dawaa (pharmacist)  Telegram button (callback query)
-S33 Dawaa Error Handling         Error trigger
-S33 Dawaa Error Handling         Schedule: every 15 minutes (expiry check)
-S33 Dawaa Error Handling         Schedule: every day at 22:00 (low stock)
+Dawaa-Main (customer)    WhatsApp message
+Dawaa-Main (pharmacist)  Telegram button (callback query)
+Dawaa-Error Handling         Error trigger
+Dawaa-Error Handling         Schedule: every 15 minutes (expiry check)
+Dawaa-Error Handling         Schedule: every day at 22:00 (low stock)
 
 SERVICES AND TOOLS
 - n8n: workflow automation
