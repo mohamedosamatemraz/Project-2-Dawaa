@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mohamed Osama Temraz | Dawaa Pharmacy Automation with n8n</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fffaf7;--ink:#1f1d3a;--mut:#6b6a85;--card:#fff;--line:#f0e4de;--o:#ff6d5a;--p:#ea4b71;--v:#7c5cff;--g:linear-gradient(135deg,#ff6d5a,#ea4b71);--sh:0 10px 30px rgba(234,75,113,.12)}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;
+background-image:radial-gradient(circle at 10% 0,#ffe1d9 0,transparent 40%),radial-gradient(circle at 95% 15%,#f3e4ff 0,transparent 38%),radial-gradient(circle at 50% 100%,#ffe9ef 0,transparent 40%);background-attachment:fixed}
+a{text-decoration:none;color:inherit}.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+[hidden]{display:none!important}
+nav{position:sticky;top:12px;z-index:10;margin:12px auto 0;max-width:1080px;padding:0 20px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:10px 14px;box-shadow:var(--sh)}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;white-space:nowrap}.logo i{font-style:normal;background:var(--g);color:#fff;border-radius:10px;padding:4px 8px}
+.links{display:flex;gap:20px;font-size:14px;font-weight:500;color:var(--mut);overflow-x:auto;white-space:nowrap}.links a:hover,.links a.act{color:var(--p)}.links a.act{font-weight:700}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:#eee;border:0;cursor:pointer;font-family:inherit}
+.badge:before{content:"";width:8px;height:8px;border-radius:50%;background:#999}
+.badge.on{background:#dcf7e6;color:#15803d}.badge.on:before{background:#22c55e}
+.badge.off{background:#ffe3e3;color:#b91c1c}.badge.off:before{background:#ef4444}
+.hero{text-align:center;padding:70px 0 40px}
+.pill{display:inline-block;font-size:13px;font-weight:600;color:var(--p);background:#fff;border:1px solid #ffd3cc;border-radius:999px;padding:6px 14px}
+h1{font-size:clamp(34px,6vw,62px);line-height:1.1;font-weight:800;letter-spacing:-1.5px;margin:20px 0}
+.grad{background:linear-gradient(90deg,var(--o),var(--p),var(--v));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:640px;margin:0 auto 26px;color:var(--mut);font-size:18px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:12px;font-weight:600;font-size:15px;border:1px solid var(--line);background:#fff;cursor:pointer;font-family:inherit;transition:.2s}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--sh)}
+.btn.main{background:var(--g);color:#fff;border:0;box-shadow:0 8px 20px rgba(234,75,113,.3)}
+.btn.dark{background:var(--ink);color:#fff;border:0}.btn.disabled{pointer-events:none;opacity:.45}
+.btn.sm{padding:8px 14px;font-size:13px}
+.chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.chip{font-size:13px;font-weight:500;background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin:30px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--sh);border-top:4px solid var(--o);display:flex;flex-direction:column;gap:10px}
+.card:nth-child(2){border-top-color:var(--v)}.card:nth-child(3){border-top-color:var(--p)}
+.ic{font-size:26px;width:48px;height:48px;display:grid;place-items:center;background:#fff3ef;border-radius:12px}
+.card h3{font-size:20px}.card p,.card li{color:var(--mut);font-size:15px}.card p{flex:1}.card ol{padding-left:20px}
+section{padding:50px 0}h2{font-size:32px;letter-spacing:-.5px;margin-bottom:8px}.sub{color:var(--mut);margin-bottom:22px}
+.chat{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--sh);overflow:hidden;display:flex;flex-direction:column}
+.chead{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:var(--g);color:#fff;font-weight:700;gap:8px}
+.chead.dk{background:var(--ink)}.chead.tg{background:linear-gradient(135deg,var(--v),#a58bff)}
+.chead small{font-weight:500;opacity:.85;font-size:12px}
+.chead button{background:rgba(255,255,255,.25);color:#fff;border:0;border-radius:8px;padding:4px 10px;cursor:pointer;font-family:inherit}
+.msgs{height:360px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#fffdfc}
+.me,.bot{max-width:85%;padding:10px 14px;border-radius:16px;white-space:pre-wrap;font-size:14px}
+.me{align-self:flex-end;background:var(--g);color:#fff;border-bottom-right-radius:4px}
+.bot{align-self:flex-start;background:#f6f1ff;border-bottom-left-radius:4px}
+.tgm{align-self:flex-start;max-width:92%;background:#f6f1ff;border-radius:14px;padding:10px 12px;font-size:14px;white-space:pre-wrap}
+.tgm .who{display:block;font-size:12px;font-weight:700;color:var(--v);margin-bottom:2px}
+.tgb{display:flex;gap:8px;margin-top:8px}.tgb button{flex:1;font-family:inherit;font-weight:600;font-size:13px;padding:7px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.tgb .ok{color:#15803d;border-color:#bbf0cf}.tgb .no{color:#b91c1c;border-color:#fcc}
+.tgdone{margin-top:6px;font-weight:700;font-size:13px}
+.sugg{display:flex;gap:8px;overflow-x:auto;padding:0 16px 12px;scrollbar-width:thin}
+.sugg button{font-family:inherit;font-size:13px;border:1px solid #ffd3cc;background:#fff7f5;color:var(--p);border-radius:999px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+.ask{display:flex;gap:10px;padding:14px;border-top:1px solid var(--line)}
+.ask input{flex:1;min-width:0;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit;outline:none}.ask input:focus{border-color:var(--o)}
+.live{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
+.log{height:360px;overflow-y:auto;padding:14px;background:#171532;color:#c9c7ee;font:13px/1.7 ui-monospace,Menlo,Consolas,monospace}
+.ln .t{color:#7d7aa8}.ln.ok b{color:#7ee2a8}.ln.err b{color:#ff8a8a}.ln i{font-style:normal;color:#9a97c9}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:0 0 18px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 16px;box-shadow:var(--sh)}
+.kpi b{display:block;font-size:26px;line-height:1.2}.kpi span{font-size:13px;color:var(--mut)}
+.note{font-size:13px;color:var(--mut);margin-top:14px}
+.tw{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--mut);font-weight:600;font-size:13px}tr:last-child td{border-bottom:0}
+.tag{font-size:12px;font-weight:600;border-radius:999px;padding:2px 10px;background:#eee}
+.tag.g{background:#dcf7e6;color:#15803d}.tag.r{background:#ffe3e3;color:#b91c1c}.tag.y{background:#fff1d6;color:#a16207}.tag.v{background:#efe9ff;color:#5b3fd6}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+.busy .act{pointer-events:none;opacity:.5}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;font-weight:600;font-size:14px}
+.step span{display:block;font-size:26px;margin-bottom:6px}
+.wf{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.wf .card{border-top-width:1px}
+footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--mut);font-size:14px}
+footer .btns{margin-bottom:16px}
+@media(max-width:720px){.logo span{display:none}.links{gap:14px}.hero{padding-top:40px}}
+</style>
+</head>
+<body>
+<nav><div class="bar">
+  <a class="logo" href="#home"><i>⚡</i> <span>Mohamed Osama Temraz</span></a>
+  <div class="links"><a href="#home" data-v="home">Home</a><a href="#live" data-v="live">Live counter</a><a href="#office" data-v="office">Back office</a><a href="#workflows" data-v="workflows">Workflows</a></div>
+  <button class="badge" id="status" title="Click to re-check">Checking…</button>
+</div></nav>
+
+<main class="wrap" id="app">
+
+<!-- HOME -->
+<div class="view" id="v-home">
+<header class="hero">
+  <span class="pill">💊 Pharmacy Automation · Dawaa (دواء)</span>
+  <h1>Smart Pharmacy Orders<br>Powered by <span class="grad">WhatsApp, Telegram &amp; n8n</span></h1>
+  <p>Customers request medicine on WhatsApp. An AI agent reads the request, checks the stock, and a pharmacist approves on Telegram. All running on n8n workflows.</p>
+  <div class="btns">
+    <a class="btn main" href="#live">▶️ Try Live Counter</a>
+    <a class="btn gated" id="waTop" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
+    <a class="btn gated" id="tgTop" target="_blank" rel="noopener">✈️ Open Telegram Bot</a>
+    <a class="btn dark" data-gh target="_blank" rel="noopener">💻 GitHub Repository</a>
+  </div>
+  <div class="chips"><span class="chip">⚙️ n8n Orchestration</span><span class="chip">🧠 AI Agent</span><span class="chip">📊 Google Sheets</span><span class="chip">🐳 ngrok Tunnel</span></div>
+</header>
+<section style="padding-top:20px">
+  <div class="grid">
+    <div class="card"><div class="ic">💬</div><h3>1. Order on WhatsApp</h3><p>Send a medicine name or a photo of the prescription, in Arabic or English.</p><a class="btn main" href="#live">Open Live Counter</a></div>
+    <div class="card"><div class="ic">🧑‍⚕️</div><h3>2. Pharmacist Approval</h3><p>Requests that need a pharmacist reach Telegram with Approve and Reject buttons.</p><a class="btn main" href="#live">See Approval Flow</a></div>
+    <div class="card"><div class="ic">🛡️</div><h3>3. Stock &amp; Monitoring</h3><p>Live stock, reservations, expiry checks, low-stock digest and error alerts.</p><a class="btn main" href="#office">Open Back Office</a></div>
+  </div>
+</section>
+</div>
+
+<!-- LIVE -->
+<div class="view" id="v-live" hidden>
+<section style="padding-top:40px">
+  <h2>🔴 Live Counter</h2><p class="sub">Send a WhatsApp message and watch the n8n execution and the Telegram approval in real time.</p>
+  <div class="kpis" id="kpis"></div>
+  <div class="live">
+    <div class="chat">
+      <div class="chead"><span>💊 Dawaa Pharmacy <small>WhatsApp Business</small></span><button id="clear" type="button" class="act">🗑️</button></div>
+      <div class="msgs" id="msgs"></div>
+      <div class="sugg" id="sugg"></div>
+      <form class="ask" id="ask"><input id="q" placeholder="Type a medicine… e.g. Brufen 400" required autocomplete="off"><button class="btn main act">➤</button></form>
+    </div>
+    <div class="chat">
+      <div class="chead dk"><span>⚙️ Execution log</span><small id="runState">Idle</small></div>
+      <div class="log" id="log"></div>
+    </div>
+    <div class="chat">
+      <div class="chead tg"><span>🧑‍⚕️ Dawaa Pharmacists <small>Telegram group · bot</small></span></div>
+      <div class="msgs" id="tgmsgs"></div>
+    </div>
+  </div>
+  <p class="note">ℹ️ This panel is a simulation with sample data that follows the logic of the real workflows. The real system runs in n8n: use the WhatsApp and Telegram buttons on the Home page to try it.</p>
+</section>
+</div>
+
+<!-- OFFICE -->
+<div class="view" id="v-office" hidden>
+<section style="padding-top:40px">
+  <h2>🗄️ Back Office</h2><p class="sub">Catalog, reservations and monitoring. Updated live by the Live Counter.</p>
+  <div class="btns" style="justify-content:flex-start;margin-bottom:20px">
+    <button class="btn sm act" id="jExp" type="button">⏱️ Run 15-min expiry check</button>
+    <button class="btn sm act" id="jDig" type="button">🌙 Run 22:00 low-stock digest</button>
+    <button class="btn sm act" id="jErr" type="button">🚨 Simulate an error</button>
+    <button class="btn sm act" id="jRst" type="button">↺ Reset demo</button>
+  </div>
+  <p class="note" id="jNote" style="margin:-8px 0 16px"></p>
+  <h3 style="margin-bottom:10px">📦 Catalog &amp; stock</h3><div class="tw" id="tCat"></div>
+  <div class="two" style="margin-top:22px">
+    <div><h3 style="margin-bottom:10px">🧾 Reservations</h3><div class="tw" id="tRes"></div></div>
+    <div><h3 style="margin-bottom:10px">🚨 Error log</h3><div class="tw" id="tErr"></div></div>
+  </div>
+</section>
+</div>
+
+<!-- WORKFLOWS -->
+<div class="view" id="v-workflows" hidden>
+<section style="padding-top:40px">
+  <h2>🏗️ Architecture</h2><p class="sub">How a request flows through the system.</p>
+  <div class="steps">
+    <div class="step"><span>📱</span>WhatsApp</div>
+    <div class="step"><span>🚇</span>ngrok Tunnel</div>
+    <div class="step"><span>⚙️</span>n8n Workflow</div>
+    <div class="step"><span>🧠</span>AI Read Request</div>
+    <div class="step"><span>📊</span>Google Sheets</div>
+    <div class="step"><span>✈️</span>Telegram</div>
+    <div class="step"><span>✅</span>Response</div>
+  </div>
+</section>
+<section style="padding-top:10px">
+  <h2>🔄 Workflows</h2><p class="sub">Two n8n workflows, four flows.</p>
+  <div class="wf">
+    <div class="card"><h3>💬 1. Customer request</h3><p>Trigger: WhatsApp message</p><ol>
+      <li>Normalize the message, check if it is a photo</li><li>Download the photo or read the text</li><li>AI reads the request, then match it with the catalog</li><li>Route: nothing found, or one row per medicine</li><li>Save the reservation lines</li><li>Auto-reserve and take stock, or ask the pharmacist</li><li>Confirm to the customer on WhatsApp</li></ol></div>
+    <div class="card"><h3>🧑‍⚕️ 2. Pharmacist decision</h3><p>Trigger: Telegram button (callback)</p><ol>
+      <li>Parse the decision and find the pending lines</li><li>Read the catalog and apply the decision</li><li>Answer the pharmacist and edit the Telegram message</li><li>Update the lines</li><li>Approved: take the stock and tell the customer</li><li>Rejected: tell the customer</li></ol></div>
+    <div class="card"><h3>🚨 3. Error handling</h3><p>Trigger: Error Trigger</p><ol>
+      <li>Classify the error</li><li>Append a row to the error sheet</li><li>Alert the team on Telegram</li><li>If needed, send an email</li></ol></div>
+    <div class="card"><h3>⏰ 4. Scheduled jobs</h3><p>Trigger: every 15 minutes and every day at 22:00</p><ol>
+      <li>15 min: find expired reservations, mark them, notify the client and update the stock</li><li>22:00: find low stock and post the reorder list on Telegram and by email</li></ol></div>
+    <div class="card"><h3>📥 Download</h3><p>The cleaned workflow files are in the repository.</p><a class="btn dark" data-gh="/tree/main/workflows" target="_blank" rel="noopener">📂 Open workflows folder</a></div>
+  </div>
+</section>
+</div>
+
+</main>
+
+<footer><div class="wrap">
+  <div class="btns">
+    <a class="btn dark" data-gh target="_blank" rel="noopener">💻 GitHub Repository</a>
+    <a class="btn" href="#home">⬆️ Back to Home</a>
+  </div>
+  Built with ❤️ using n8n · Mohamed Osama Temraz
+</div></footer>
+
+<script>
+const CONFIG = {
+  n8nBase: "https://handshake-turbojet-recent.ngrok-free.dev",
+  whatsapp: "15551796046",
+  telegram: "depi_telegram_n8n_bot",
+  github: "https://github.com/mohamedosamatemraz/Project-2-Dawaa"
+};
+const $ = s => document.querySelector(s);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+const hm = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+const hms = () => new Date().toLocaleTimeString([], { hour12: false });
+
+/* ---------- links & routing ---------- */
+$("#waTop").href = "https://wa.me/" + CONFIG.whatsapp;
+$("#tgTop").href = "https://t.me/" + CONFIG.telegram;
+document.querySelectorAll("[data-gh]").forEach(a => a.href = CONFIG.github + (a.dataset.gh || ""));
+const VIEWS = ["home", "live", "office", "workflows"];
+function route() {
+  const h = (location.hash || "#home").slice(1), v = VIEWS.includes(h) ? h : "home";
+  document.querySelectorAll(".view").forEach(s => s.hidden = s.id !== "v-" + v);
+  document.querySelectorAll(".links a").forEach(a => a.classList.toggle("act", a.dataset.v === v));
+  window.scrollTo(0, 0);
+}
+addEventListener("hashchange", route); route();
+
+/* ---------- online badge ---------- */
+function setStatus(online) {
+  $("#status").textContent = online ? "Online" : "Offline";
+  $("#status").className = "badge " + (online ? "on" : "off");
+  document.querySelectorAll(".gated").forEach(a => a.classList.toggle("disabled", !online));
+}
+async function checkStatus() {
+  $("#status").textContent = "Checking…"; $("#status").className = "badge";
+  const u = CONFIG.n8nBase;
+  try { const r = await fetch(u + "/healthz", { headers: { "ngrok-skip-browser-warning": "1" } }); if (r.ok) return setStatus(true); } catch (e) {}
+  const ok = await new Promise(res => {
+    const i = new Image(), t = setTimeout(() => res(false), 6000);
+    i.onload = () => { clearTimeout(t); res(true); }; i.onerror = () => { clearTimeout(t); res(false); };
+    i.src = u + "/favicon.ico?" + Date.now();
+  });
+  setStatus(ok);
+}
+checkStatus(); $("#status").onclick = checkStatus;
+
+/* ---------- demo data ---------- */
+const CAT0 = [
+  { id: 1, name: "Panadol Extra 500", al: ["panadol", "بانادول", "بنادول"], stock: 40, rx: false },
+  { id: 2, name: "Brufen 400", al: ["brufen", "بروفين"], stock: 25, rx: false },
+  { id: 3, name: "Cataflam 50", al: ["cataflam", "كتافلام"], stock: 30, rx: false },
+  { id: 4, name: "Antinal", al: ["antinal", "انتينال", "أنتينال"], stock: 3, rx: false },
+  { id: 5, name: "Augmentin 1g", al: ["augmentin", "اوجمنتين", "أوجمنتين"], stock: 12, rx: true },
+  { id: 6, name: "Cipro 500", al: ["cipro", "سيبرو"], stock: 8, rx: true }
+];
+const PRESC = "Augmentin 1g x1, Panadol 500 x2";
+const ERRS = [
+  { node: "AI Read Request", msg: "429 rate limit", cls: "temporary", crit: false },
+  { node: "Update Stock", msg: "Sheet not found", cls: "critical", crit: true },
+  { node: "Notify Client", msg: "WhatsApp token expired", cls: "critical", crit: true }
+];
+let CAT, RES, ERL, runs, busy = false;
+const hello = "Hello! Send the medicine name (e.g. Panadol 500) or a clear photo of the prescription. / ابعت اسم الدوا أو صورة واضحة للروشتة.";
+function reset() {
+  CAT = JSON.parse(JSON.stringify(CAT0)); RES = []; ERL = []; runs = 0;
+  $("#msgs").innerHTML = ""; $("#tgmsgs").innerHTML = ""; $("#log").innerHTML = "";
+  wa("bot", hello);
+  tg("Requests that need a pharmacist will appear here with Approve and Reject buttons.");
+  logHint(); $("#runState").textContent = "Idle"; $("#jNote").textContent = ""; render();
+}
+function logHint() { const d = el("div", "ln"); d.append(el("span", "t", "Send a WhatsApp message to start an execution.")); $("#log").append(d); }
+
+/* ---------- UI helpers ---------- */
+function wa(cls, text) { const d = el("div", cls, text); $("#msgs").append(d); $("#msgs").scrollTop = 1e9; return d; }
+function tg(text, btns) {
+  const d = el("div", "tgm"); d.append(el("span", "who", "Dawaa Bot"), document.createTextNode(text));
+  if (btns) { const b = el("div", "tgb"); btns.forEach(([l, c, f]) => { const x = el("button", c + " act", l); x.type = "button"; x.onclick = f; b.append(x); }); d.append(b); d._b = b; }
+  $("#tgmsgs").append(d); $("#tgmsgs").scrollTop = 1e9; return d;
+}
+async function L(node, st = "ok", note = "") {
+  const d = el("div", "ln " + st);
+  d.append(el("span", "t", "[" + hms() + "] "), el("b", null, (st === "err" ? "✖ " : "✔ ") + node));
+  if (note) d.append(el("i", null, " · " + note));
+  $("#log").append(d); $("#log").scrollTop = 1e9; await sleep(280);
+}
+function startRun() { $("#log").innerHTML = ""; $("#runState").textContent = "Running…"; runs++; }
+function endRun(ok = true) { $("#runState").textContent = ok ? "Success" : "Error"; render(); }
+async function guard(fn) {
+  if (busy) return; busy = true; document.body.classList.add("busy");
+  try { await fn(); } finally { busy = false; document.body.classList.remove("busy"); render(); }
+}
+function table(head, rows) {
+  const t = el("table"), h = el("tr"); head.forEach(x => h.append(el("th", null, x))); t.append(h);
+  rows.forEach(r => { const tr = el("tr"); r.forEach(c => { const td = el("td"); if (c && c.tag) td.append(el("span", "tag " + c.k, c.tag)); else td.textContent = c; tr.append(td); }); t.append(tr); });
+  return t;
+}
+const tag = (tag, k) => ({ tag, k });
+function render() {
+  const n = s => RES.filter(r => r.status === s).length;
+  const k = [["Executions", runs], ["Reserved", n("reserved")], ["Pending", n("pending")], ["Approved", n("approved")], ["Rejected", n("rejected")]];
+  $("#kpis").innerHTML = ""; k.forEach(([l, v]) => { const d = el("div", "kpi"); d.append(el("b", null, v), el("span", null, l)); $("#kpis").append(d); });
+  $("#tCat").replaceChildren(table(["Medicine", "Stock", "Type", "Status"], CAT.map(c => [c.name, c.stock, c.rx ? "Pharmacist" : "OTC", c.stock < 10 ? tag("Low stock", "r") : tag("OK", "g")])));
+  const col = { reserved: "g", pending: "y", approved: "g", rejected: "r", expired: "v" };
+  $("#tRes").replaceChildren(table(["ID", "Items", "Status", "Time"], RES.length ? RES.slice().reverse().map(r => [r.id, r.items.map(i => i.name + " x" + i.qty).join(", "), tag(r.status, col[r.status]), r.t]) : [["No reservations yet", "", "", ""]]));
+  $("#tErr").replaceChildren(table(["Time", "Node", "Class"], ERL.length ? ERL.slice().reverse().map(e => [e.t, e.node, tag(e.cls, e.crit ? "r" : "y")]) : [["No errors", "", ""]]));
+}
+
+/* ---------- matching ---------- */
+function match(raw) {
+  const t = raw.toLowerCase().replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)), out = [];
+  CAT.forEach(c => {
+    let best = -1, al = "";
+    c.al.forEach(a => { const i = t.indexOf(a); if (i >= 0 && (best < 0 || i < best)) { best = i; al = a; } });
+    if (best < 0) return;
+    const aft = t.slice(best + al.length, best + al.length + 14), bef = t.slice(Math.max(0, best - 12), best);
+    const m = aft.match(/^[^,،+\n]*?(?:x\s*(\d{1,2})|(?<!\d)(\d{1,2})\s*x|(?<!\d)(\d{1,2})\s*(?:علب|علبة|box))/) || bef.match(/(\d{1,2})\s*(?:علب|علبة|box|x)?\s*$/);
+    let q = m ? +(m[1] || m[2] || m[3]) : 1;
+    if (/علبتين/.test(aft + bef)) q = 2;
+    out.push({ id: c.id, name: c.name, qty: Math.max(1, Math.min(q, 10)) });
+  });
+  return out;
+}
+const cat = id => CAT.find(c => c.id === id);
+const list = a => a.map(i => i.name + " x" + i.qty).join(", ");
+
+/* ---------- flow 1: customer request ---------- */
+async function handleMessage({ text = "", photo = false, fail = false }) {
+  startRun(); wa("me", photo ? "📷 prescription.jpg" : text);
+  await L("WhatsApp Trigger", "ok", "messages"); await L("Normalize Message"); await L("Is Photo?", "ok", photo ? "true" : "false");
+  let raw;
+  if (photo) { await L("Get Photo URL"); await L("Download Photo"); await L("Prepare Prescription Read"); raw = PRESC; }
+  else { await L("Prepare Text Read"); raw = text; }
+  if (fail) { await L("AI Read Request", "err", "timeout"); await L("Ai Failed: Ask Pharmacist"); tg("⚠️ The AI could not read this request. Please handle it manually:\n“" + text + "”"); return endRun(false); }
+  await L("AI Read Request", "ok", "items extracted"); await L("Read Catalog");
+  const found = match(raw); await L("Match Catalog", "ok", found.length + " match");
+  const avail = found.filter(i => cat(i.id).stock >= i.qty), miss = found.filter(i => !avail.includes(i));
+  if (!avail.length) {
+    await L("Route Request", "ok", "nothing found"); await L("Nothing Found Ready");
+    wa("bot", miss.length ? "Sorry, " + miss.map(i => i.name).join(", ") + " is not available right now. 🙏\nعذراً، غير متوفر حالياً." : "Sorry, I couldn't recognise any medicine. Please send the medicine name or a clear photo of the prescription.\nمعرفتش الدوا، ابعت الاسم أو صورة واضحة للروشتة.");
+    return endRun();
+  }
+  const needs = avail.some(i => cat(i.id).rx), id = "R-" + (1001 + RES.length), extra = miss.length ? "\nNot available: " + miss.map(i => i.name).join(", ") : "";
+  await L("Route Request", "ok", needs ? "needs pharmacist" : "available");
+  await L("One Row per Medicine", "ok", avail.length + " row(s)"); await L("Save Reservation Lines");
+  const r = { id, items: avail, status: needs ? "pending" : "reserved", t: hm() }; RES.push(r);
+  await L("If", "ok", needs ? "pharmacist" : "auto");
+  if (!needs) {
+    await L("Take Stock Now"); avail.forEach(i => cat(i.id).stock -= i.qty); await L("Update Stock"); await L("Confirm Reservation");
+    wa("bot", "✅ Reserved " + id + ": " + list(avail) + extra + "\nPick up within 2 hours. / متاح للاستلام خلال ساعتين.");
+  } else {
+    await L("Ask Pharmacist", "ok", "telegram");
+    r.bubble = tg("📋 " + id + " needs approval:\n" + list(avail),
+      [["✅ Approve", "ok", () => guard(() => decide(r, true))], ["❌ Reject", "no", () => guard(() => decide(r, false))]]);
+    await L("Confirm Reservation1");
+    wa("bot", "⏳ " + id + " was sent to the pharmacist for approval: " + list(avail) + extra + "\nتم إرسال الطلب للصيدلي للموافقة.");
+  }
+  endRun();
+}
+
+/* ---------- flow 2: pharmacist decision ---------- */
+async function decide(r, ok) {
+  if (r.status !== "pending") return;
+  startRun();
+  await L("Telegram Trigger", "ok", "callback_query"); await L("Parse Decision", "ok", ok ? "approve" : "reject");
+  await L("Find Pending Lines"); await L("Read Catalog (Decision)"); await L("Apply Decision");
+  const approve = ok && r.items.every(i => cat(i.id).stock >= i.qty);
+  await L("Answer Pharmacist"); await L("Edit a text message");
+  r.bubble._b.replaceWith(el("div", "tgdone", approve ? "✅ Approved" : "❌ Rejected"));
+  await L("Line Updates"); await L("Update Lines"); await L("Approved", "ok", approve ? "true" : "false");
+  if (approve) {
+    await L("Code in JavaScript"); r.items.forEach(i => cat(i.id).stock -= i.qty); await L("Take Stock (Approved)");
+    await L("Tell Customer, Approved"); r.status = "approved";
+    wa("bot", "✅ " + r.id + " approved by the pharmacist: " + list(r.items) + "\nPick up within 2 hours. / تمت الموافقة، متاح للاستلام.");
+  } else {
+    await L("Tell Customer, Approved1"); r.status = "rejected";
+    wa("bot", "❌ " + r.id + " could not be approved. Please visit the pharmacy or contact the pharmacist.\nلم تتم الموافقة، من فضلك كلّم الصيدلي.");
+  }
+  endRun();
+}
+
+/* ---------- scheduled jobs & errors ---------- */
+async function jobExpiry() {
+  startRun(); await L("Every 15 Minutes", "ok", "schedule"); await L("Read Reservations"); await L("Read Catalog");
+  const ex = RES.filter(r => r.status === "pending" || r.status === "reserved");
+  await L("Expired Lines", "ok", ex.length + " expired");
+  if (ex.length) {
+    await L("Mark Expired");
+    ex.forEach(r => { if (r.status === "reserved") r.items.forEach(i => cat(i.id).stock += i.qty); if (r.bubble && r.bubble._b.isConnected) r.bubble._b.replaceWith(el("div", "tgdone", "⌛ Expired")); r.status = "expired"; });
+    await L("Notify Client"); ex.forEach(r => wa("bot", "⌛ Reservation " + r.id + " has expired. Send a new request any time.\nانتهت مدة الحجز."));
+    await L("Code in JavaScript"); await L("Update Stock");
+  }
+  $("#jNote").textContent = "✔ Expiry check finished: " + ex.length + " reservation(s) expired. See the Live counter for the log."; endRun();
+}
+async function jobDigest() {
+  startRun(); await L("Every Day 22:00", "ok", "cron"); await L("Read Catalog1");
+  const low = CAT.filter(c => c.stock < 10); await L("Find Low Stock", "ok", low.length + " item(s)");
+  if (low.length) { await L("Post Reorder List"); tg("📦 Reorder list:\n" + low.map(c => "• " + c.name + " (" + c.stock + " left)").join("\n")); await L("Post Reorder List1", "ok", "email"); }
+  $("#jNote").textContent = "✔ Daily digest finished: " + low.length + " item(s) below 10 units. See the Live counter for the log."; endRun();
+}
+async function jobError() {
+  const e = ERRS[Math.floor(Math.random() * ERRS.length)];
+  startRun(); await L("Error Trigger", "err", e.node + ": " + e.msg); await L("Classify Error", "ok", e.cls);
+  ERL.push({ t: hm(), node: e.node, cls: e.cls, crit: e.crit }); await L("Append row in sheet"); await L("Alert Team");
+  tg("🚨 Workflow error in “" + e.node + "”: " + e.msg + " (" + e.cls + ")");
+  await L("If", "ok", e.crit ? "critical" : "not critical"); if (e.crit) await L("Send a message", "ok", "email");
+  $("#jNote").textContent = "✔ Error handled: " + e.node + " (" + e.cls + "). See the Live counter for the log."; endRun(false);
+}
+
+/* ---------- events ---------- */
+const SUG = [["Panadol 500 x2", { text: "Panadol 500 x2" }], ["عايز ٢ بانادول اكسترا", { text: "عايز ٢ بانادول اكسترا" }],
+  ["Brufen 400", { text: "Brufen 400" }], ["Augmentin 1g", { text: "Augmentin 1g" }], ["Vitamin Z", { text: "Vitamin Z" }],
+  ["📷 Send prescription", { photo: true }], ["⚠️ AI failure", { text: "asdf ???", fail: true }]];
+SUG.forEach(([l, o]) => { const b = el("button", "act", l); b.type = "button"; b.onclick = () => guard(() => handleMessage(o)); $("#sugg").append(b); });
+$("#ask").onsubmit = e => { e.preventDefault(); const q = $("#q").value.trim(); if (!q) return; $("#q").value = ""; guard(() => handleMessage({ text: q })); };
+$("#clear").onclick = () => { $("#msgs").innerHTML = ""; wa("bot", hello); };
+$("#jExp").onclick = () => guard(jobExpiry); $("#jDig").onclick = () => guard(jobDigest); $("#jErr").onclick = () => guard(jobError);
+$("#jRst").onclick = () => { if (!busy) reset(); };
+reset();
+</script>
+</body>
+</html>
